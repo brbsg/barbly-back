@@ -12,9 +12,11 @@ datasource db {
 
 model Url{
   id     Int     @id @default(autoincrement())
-  shortUrl String
+  shortUrl String @unique
   longUrl String
-  visitCount Int
+  visitCount Int @default(0)
+  title String?
+  description String?
   thumbnail String
 
   @@map("urls")

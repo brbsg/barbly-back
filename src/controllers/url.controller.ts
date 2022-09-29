@@ -1,10 +1,26 @@
 import { Request, Response } from "express";
 import urlService from "../services/url.service.js";
 
-async function getShortUrl(req: Request, res: Response) {
-  const shortUrl = await urlService.getShortUrl();
+async function shortenUrl(req: Request, res: Response) {
+  const { url } = req.body as { url: string };
 
-  res.send("oi");
+  const shortUrl = await urlService.shortenUrl(url);
+
+  res.send(shortUrl);
 }
 
-export default { getShortUrl };
+async function getLongUrl(req: Request, res: Response) {
+  const { shortUrl } = req.params;
+
+  const longUrl = await urlService.getLongUrl(shortUrl);
+
+  res.send(longUrl);
+}
+
+async function topVisitedSites(req: Request, res: Response) {
+  const topVisitedSites = await urlService.getTopVisitedSites();
+
+  res.send(topVisitedSites);
+}
+
+export default { shortenUrl, getLongUrl, topVisitedSites };
