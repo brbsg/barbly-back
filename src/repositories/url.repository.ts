@@ -19,9 +19,9 @@ async function getTopVisitedSites() {
   });
 }
 
-async function incrementVisitCount(id: number) {
+async function incrementVisitCount(shortUrl: string) {
   return prisma.url.update({
-    where: { id },
+    where: { shortUrl },
     data: { visitCount: { increment: 1 } },
   });
 }
@@ -32,9 +32,14 @@ async function getByShortUrl(shortUrl: string) {
   });
 }
 
+async function deleteShortUrl(shortUrl: string) {
+  return prisma.url.deleteMany({});
+}
+
 export default {
   createShortUrl,
   getTopVisitedSites,
   incrementVisitCount,
   getByShortUrl,
+  deleteShortUrl,
 };

@@ -33,6 +33,8 @@ async function shortenUrl(url: string) {
 async function getLongUrl(shortUrl: string) {
   const dbLongUrl = await urlRepository.getByShortUrl(shortUrl);
 
+  await urlRepository.incrementVisitCount(shortUrl);
+
   return dbLongUrl.longUrl;
 }
 
