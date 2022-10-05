@@ -10,12 +10,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id    String    @id 
+
+  url Url[]
+
+  @@map("users")
+}
+
 model Url{
   id     Int     @id @default(autoincrement())
-  shortUrl String
+
+  shortUrl String @unique
   longUrl String
-  visitCount Int
+  visitCount Int @default(0)
+  title String?
+  description String?
   thumbnail String
+  
+  userId      String?
+  user        User?     @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
   @@map("urls")
 }
