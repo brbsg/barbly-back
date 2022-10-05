@@ -2,7 +2,7 @@ import { nanoid } from "nanoid";
 import urlMetadata from "url-metadata";
 import urlRepository from "../repositories/url.repository.js";
 
-async function shortenUrl(url: string) {
+async function shortenUrl(url: string, uid?: string) {
   let shortUrl = nanoid(6);
 
   let dbUrl = await urlRepository.getByShortUrl(shortUrl);
@@ -20,6 +20,7 @@ async function shortenUrl(url: string) {
   console.log(urlMetaData);
 
   await urlRepository.createShortUrl(
+    uid,
     url,
     shortUrl,
     thumbnail,
@@ -44,4 +45,22 @@ async function getTopVisitedSites() {
   return topVisitedSites;
 }
 
-export default { shortenUrl, getLongUrl, getTopVisitedSites };
+async function getUserLinks(uid: string) {
+  const topVisitedSites = await urlRepository.getUserLinks(uid);
+
+  return topVisitedSites;
+}
+
+async function deleteOneLink(id: number) {
+  const deletedLink = await urlRepository.deleteOneLink(id);
+
+  return deletedLink;
+}
+
+export default {
+  shortenUrl,
+  getLongUrl,
+  getTopVisitedSites,
+  getUserLinks,
+  deleteOneLink,
+};

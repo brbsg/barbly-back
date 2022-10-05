@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator erd {
+  provider = "prisma-erd-generator"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    String     @id
+  role   Role @default(EMPLOYEE)
+
+  @@map("users")
+}
+
+model Drug{
+  id    Int     @id @default(autoincrement())
+  name  String
+  image String 
+  ean String @unique
+  amount Int
+  salePrice Int
+  purchasePrice Int
+  category String
+  maxDiscountPercentage  Float? @default(0)
+  percentageOfCommission Float? @default(0)
+  fixedCommissionValue Int? @default(0)
+  description String?
+
+  @@map("drugs")
+}
+
+enum Role {
+  ADMIN @map("Gerente")
+  EMPLOYEE @map("Funcionário")
+}

@@ -11,6 +11,8 @@ services:
       - .env
     volumes:
       - postgres:/var/lib/postgresql/data
+    networks:
+      - simple-network
 
   barbly_api:
     container_name: barbly_api
@@ -24,6 +26,12 @@ services:
     volumes:
       - .:/usr/src
       - /usr/src/app/node_modules
+    networks:
+      - simple-network
+
+networks:
+  simple-network:
+    driver: bridge
 
 volumes:
   postgres:
